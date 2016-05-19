@@ -12,7 +12,7 @@ def _get_tags_file():
 def highlight_tags():
     tags_file = _get_tags_file()
     if not os.path.exists(tags_file):
-        return
+        generate_tags()
 
     tags = []
     with open(tags_file, 'r') as tags_data:

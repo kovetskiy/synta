@@ -4,7 +4,7 @@ func! synta#highlight()
     py synta.highlight_tags()
 endfunc!
 
-func! synta#generate_and_highlight()
+func! synta#rehighlight()
     py synta.generate_tags()
     py synta.highlight_tags()
 endfunc!
