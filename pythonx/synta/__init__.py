@@ -56,7 +56,7 @@ def generate_tags():
     with open(os.devnull, "wb") as devnull:
         subprocess.call(
             ["gotags", "-f", output_file, "-sort=false", input_file],
-            stdout=devnull
+            stdout=devnull, stderr=devnull,
         )
 
 
