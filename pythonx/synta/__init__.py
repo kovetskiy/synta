@@ -31,7 +31,7 @@ def _parse_tag(values):
     tag_type = values[3]
 
     if tag_type == "x":
-        _vim_matchadd(_parse_tag_cursor(values), len(tag_name), "goReceiver")
+        _vim_matchadd(_parse_tag_cursor(values), tag_name, "goReceiver")
 
 def _parse_tag_cursor(options):
     (line, column) = (None, None)
@@ -60,12 +60,12 @@ def generate_tags():
         )
 
 
-def _vim_matchadd(cursor, length, group):
+def _vim_matchadd(cursor, string, group):
     global _active_highlights
 
-    command = "matchadd('{0}', '\%{2}l\%{3}c.{1}')".format(
+    command = "matchadd('{0}', '\%{2}l\%{3}c{1}')".format(
         group,
-        '\\{'+str(length)+'\\}',
+        string,
         cursor[0], cursor[1],
     )
 
