@@ -6,7 +6,7 @@ import os.path
 _active_highlights = []
 
 def _get_tags_file():
-    return vim.eval("expand('%:p:h')") + "/.tags_" + vim.eval("expand('%:t')")
+    return vim.eval("expand('%:p:h')") + "/.tags_" + vim.eval("expand('%:t:r')")
 
 
 def highlight_tags():
