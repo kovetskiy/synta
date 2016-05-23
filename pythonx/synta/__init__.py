@@ -15,8 +15,12 @@ def highlight_tags():
         generate_tags()
 
     tags = []
-    with open(tags_file, 'r') as tags_data:
-        tags = tags_data.readlines()
+
+    try:
+        with open(tags_file, 'r') as tags_data:
+            tags = tags_data.readlines()
+    except:
+        pass
 
     _cleanup()
 
@@ -54,10 +58,13 @@ def generate_tags():
     output_file = _get_tags_file()
 
     with open(os.devnull, "wb") as devnull:
-        subprocess.call(
-            ["gotags", "-f", output_file, "-sort=false", input_file],
-            stdout=devnull, stderr=devnull,
-        )
+        try:
+            subprocess.call(
+                ["gotags", "-f", output_file, "-sort=false", input_file],
+                stdout=devnull, stderr=devnull,
+            )
+        except:
+            pass
 
 
 def _vim_matchadd(cursor, string, group):
