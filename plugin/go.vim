@@ -9,7 +9,10 @@ let s:hacks = expand('<sfile>:p:h:h') . '/vim-hacks/'
 
 let g:hacks_directories = get(g:, "hacks_directories", [])
 if type(g:hacks_directories) == type("")
-    let g:hacks_directories = [g:hacks_directories]
+    let s:hacks_directories = g:hacks_directories
+    unlet g:hacks_directories
+    let g:hacks_directories = [s:hacks_directories]
+    unlet s:hacks_directories
 endif
 
 call add(g:hacks_directories, s:hacks)
