@@ -30,6 +30,18 @@ func! synta#quickfix#go(nr)
 
     redraw!
 
+    let g:synta_error_current = item["text"]
+
+    py << CODE
+import re
+import vim
+
+matches = re.match('undefined: (.*)', vim.vars['synta_error_current'])
+if matches:
+    identifier = matches.group(1)
+    vim.command('call search("%s", "cs")' % identifier)
+CODE
+
     echo strpart(synta#quickfix#counter() . " " . item["text"], 0, &columns-1)
 endfunc!
 
