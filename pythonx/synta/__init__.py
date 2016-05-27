@@ -2,6 +2,7 @@ import subprocess
 import vim
 import os
 import os.path
+import re
 
 _active_highlights = []
 
@@ -91,3 +92,17 @@ def _cleanup():
             pass
 
     _active_highlights = []
+
+
+def try_jump_to_error_identifier(contents):
+    regexps = [
+        'undefined: ([\w.]+)',
+        'cannot use ([\w.]+)',
+        'syntax error: unexpected ([^,]+)',
+    ]
+    for regexp in regexps:
+        matches = re.match(regexp, contents)
+        if matches:
+            identifier = matches.group(1)
+            vim.command("call search('\<\V%s\m\>', 'cs')" % identifier)
+            return True
