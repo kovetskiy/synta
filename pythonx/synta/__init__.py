@@ -71,7 +71,7 @@ def generate_tags():
 def _vim_matchadd(cursor, string, group):
     global _active_highlights
 
-    command = "matchadd('{0}', '\%{2}l\%{3}c{1}')".format(
+    command = "matchadd('{0}', '\%{2}l\%{3}c{1}', -1)".format(
         group,
         string,
         cursor[0], cursor[1],
