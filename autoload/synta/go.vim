@@ -1,11 +1,11 @@
 func! synta#go#build(...)
     if a:0 > 0 && a:1 != 0
         normal :w
-        redraw!
     endif
 
+    redraw!
     echohl Special
-    echon "[Go] Building..."
+    echon "[go] building..."
 
     let g:go_errors = []
 
@@ -13,16 +13,15 @@ func! synta#go#build(...)
 import subprocess
 
 build = subprocess.Popen(
-    ["go", "build"],
+    ["go-fast-compile"],
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE,
     close_fds=True
 )
 
-_, stderr = build.communicate()
-lines = stderr.split('\n')
-if len(lines) > 1:
-    lines = lines[1:]
+stdout, _ = build.communicate()
+lines = stdout.split('\n')
+if len(lines) > 0:
     vim.vars['go_errors'] = lines
 CODE
 
@@ -36,7 +35,7 @@ CODE
     else
         redraw!
         echohl String
-        echon "[Go] Building done"
+        echon "[go] build succeed"
     endif
     echohl Normal
 endfunc!
