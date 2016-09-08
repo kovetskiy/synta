@@ -7,7 +7,7 @@ import re
 _active_highlights = []
 
 def _get_tags_file():
-    return vim.eval("expand('%:p:h')") + "/.tags_" + vim.eval("expand('%:t:r')")
+    return '/tmp/.synta.tags.' + vim.eval("expand('%:p')").replace('/', '_')
 
 
 def highlight_tags():
