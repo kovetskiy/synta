@@ -3,6 +3,7 @@ py import synta
 func! synta#highlight_builtins()
     syn keyword goErr err
     syn keyword goConditional case default
+    syn match goFormatSpecifier   /%[-#0 +]*\%(\*\|\d\+\)\=\%(\.\%(\*\|\d\+\)\)*[vTtbcdoqxXUeEfgGsp]/ contained containedin=goString,goRawString
 endfunc!
 
 func! synta#highlight_calls()
