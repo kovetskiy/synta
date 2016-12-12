@@ -98,10 +98,10 @@ def try_jump_to_error_identifier(contents):
     regexps = [
         'undefined: ([\w.]+)',
         'cannot use ([\w.]+)',
-        'syntax error: unexpected ([^,]+)',
+        'syntax error: unexpected ([\w.]+)',
     ]
     for regexp in regexps:
-        matches = re.match(regexp, contents)
+        matches = re.search(regexp, contents)
         if matches:
             identifier = matches.group(1)
             vim.command("call search('\<\V%s\m\>', 'cs')" % identifier)
