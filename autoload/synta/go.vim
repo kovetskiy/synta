@@ -3,24 +3,31 @@ func! synta#go#build(...)
         normal :w
     endif
 
-    redraw!
-    echohl Special
-    echon "[go] building..."
-
     let g:go_errors = []
 
     py << CODE
 import subprocess
 
+args = ["go-fast-build"]
+if not vim.vars['synta_use_go_fast_build']:
+    args = ["go", "build"]
+
 build = subprocess.Popen(
-    ["go-fast-compile"],
+    args,
     stdout=subprocess.PIPE,
     stderr=subprocess.PIPE,
     close_fds=True
 )
 
-stdout, _ = build.communicate()
-lines = stdout.split('\n')
+lines = []
+
+if vim.vars['synta_use_go_fast_build']:
+    stdout, _ = build.communicate()
+    lines = stdout.split('\n')
+else:
+    _, stderr = build.communicate()
+    lines = stderr.split('\n')
+
 if len(lines) > 0:
     vim.vars['go_errors'] = lines
 CODE

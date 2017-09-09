@@ -30,3 +30,11 @@ augroup operations_go
     au FileType go imap <buffer> <Leader>, <ESC>:call synta#go#build()<CR>
 augroup end
 ```
+
+## Settings
+
+You can disable using of `go-fast-build` which enabled by default:
+
+```
+let g:synta_use_go_fast_build = 0
+```
