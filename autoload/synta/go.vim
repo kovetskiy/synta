@@ -21,12 +21,8 @@ build = subprocess.Popen(
 
 lines = []
 
-if vim.vars['synta_use_go_fast_build']:
-    stdout, _ = build.communicate()
-    lines = stdout.split('\n')
-else:
-    _, stderr = build.communicate()
-    lines = stderr.split('\n')
+_, stderr = build.communicate()
+lines = stderr.split('\n')
 
 if len(lines) > 0:
     vim.vars['go_errors'] = lines
