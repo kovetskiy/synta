@@ -6,6 +6,28 @@ import re
 
 _active_highlights = []
 
+
+def build():
+    args = ["go-fast-build"]
+    if not vim.vars['synta_use_go_fast_build']:
+        args = ["go", "build"]
+
+    build = subprocess.Popen(
+        args,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        close_fds=True
+    )
+
+    lines = []
+
+    _, stderr = build.communicate()
+    lines = stderr.split('\n')
+
+    if len(lines) > 0:
+        vim.vars['go_errors'] = lines
+
+
 def _get_tags_file():
     return '/tmp/.synta.tags.' + vim.eval("expand('%:p')").replace('/', '_')
 

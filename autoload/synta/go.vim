@@ -5,28 +5,7 @@ func! synta#go#build(...)
 
     let g:go_errors = []
 
-    py << CODE
-import subprocess
-
-args = ["go-fast-build"]
-if not vim.vars['synta_use_go_fast_build']:
-    args = ["go", "build"]
-
-build = subprocess.Popen(
-    args,
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    close_fds=True
-)
-
-lines = []
-
-_, stderr = build.communicate()
-lines = stderr.split('\n')
-
-if len(lines) > 0:
-    vim.vars['go_errors'] = lines
-CODE
+    py synta.build()
 
     let g:errors = go#tool#ParseErrors(g:go_errors)
 
