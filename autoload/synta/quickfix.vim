@@ -21,8 +21,12 @@ func! synta#quickfix#go(nr)
     if len(windows) > 0
         call win_gotoid(windows[0])
     else
-        execute "botright" "sbuffer" buffer
-        execute "wincmd" "="
+        if g:synta_use_sbuffer == 1
+            execute "botright" "sbuffer" buffer
+            execute "wincmd" "="
+        else
+            execute "buffer" buffer
+        endif
     endif
 
     execute "normal! " item["lnum"] . "G"

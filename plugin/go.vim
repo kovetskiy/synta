@@ -22,3 +22,7 @@ unlet s:hacks
 if !exists('g:synta_use_go_fast_build')
     let g:synta_use_go_fast_build = 1
 endif
+
+if !exists('g:synta_use_sbuffer')
+    let g:synta_use_sbuffer = 1
+endif
