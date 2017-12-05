@@ -31,6 +31,17 @@ augroup operations_go
 augroup end
 ```
 
+Specify fixer for ale
+```
+    let g:ale_fixers = {
+    \   'go': [function("synta#ale#goimports#Fix")],
+    \}
+    let g:ale_linters = {
+    \   'go': ['gobuild'],
+    \}
+    let g:ale_fix_on_save = 1
+```
+
 ## Settings
 
 You can disable using of `go-fast-build` which enabled by default:
