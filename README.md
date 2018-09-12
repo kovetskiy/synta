@@ -34,7 +34,8 @@ augroup end
 Specify fixer for ale
 ```
     let g:ale_fixers = {
-    \   'go': [function("synta#ale#goimports#Fix")],
+    \   'go': [function("synta#ale#goimports#Fix"), function("synta#ale#goinstalldeps#Fix")],
+    \}
     \}
     let g:ale_linters = {
     \   'go': ['gobuild'],
