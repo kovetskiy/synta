@@ -16,11 +16,20 @@ def build():
     else:
         args = ["go", "test", "-c"]
 
+    dirname = os.path.dirname(vim.current.buffer.name)
+    cwd = os.getcwd()
+
+    if dirname != cwd:
+        if dirname.startswith(cwd):
+            args.append("." + dirname[len(cwd):])
+        else:
+            args.append(dirname)
+
     build = subprocess.Popen(
         args,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
-        close_fds=True
+        close_fds=True,
     )
 
     lines = []
