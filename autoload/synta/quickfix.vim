@@ -35,6 +35,9 @@ func! synta#quickfix#go(nr)
 
         redraw!
     endif
+    if empty(item["text"])
+        return
+    endif
 
     let g:synta_error_current = item["text"]
 
