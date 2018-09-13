@@ -16,23 +16,25 @@ endfunc!
 func! synta#quickfix#go(nr)
     let item = getqflist()[a:nr]
     let buffer = item["bufnr"]
-    let windows = win_findbuf(buffer)
+    if buffer
+        let windows = win_findbuf(buffer)
 
-    if len(windows) > 0
-        call win_gotoid(windows[0])
-    else
-        if g:synta_use_sbuffer == 1
-            execute "botright" "sbuffer" buffer
-            execute "wincmd" "="
+        if len(windows) > 0
+            call win_gotoid(windows[0])
         else
-            execute "buffer" buffer
+            if g:synta_use_sbuffer == 1
+                execute "botright" "sbuffer" buffer
+                execute "wincmd" "="
+            else
+                execute "buffer" buffer
+            endif
         endif
+
+        execute "normal! " item["lnum"] . "G"
+        silent! normal! zvzz
+
+        redraw!
     endif
-
-    execute "normal! " item["lnum"] . "G"
-    silent! normal! zvzz
-
-    redraw!
 
     let g:synta_error_current = item["text"]
 
