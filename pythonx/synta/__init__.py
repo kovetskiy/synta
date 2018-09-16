@@ -22,8 +22,10 @@ def build():
     if dirname != cwd:
         if dirname.startswith(cwd):
             args.append("." + dirname[len(cwd):])
-        else:
+        elif dirname.startswith("./") or dirname.startswith("/"):
             args.append(dirname)
+        else:
+            args.append("." + dirname)
 
     build = subprocess.Popen(
         args,
