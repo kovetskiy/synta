@@ -19,13 +19,26 @@ def build():
     dirname = os.path.dirname(vim.current.buffer.name)
     cwd = os.getcwd()
 
+    target = ""
     if dirname != cwd:
         if dirname.startswith(cwd):
-            args.append("." + dirname[len(cwd):])
+            target = "." + dirname[len(cwd):]
         elif dirname.startswith("./") or dirname.startswith("/"):
-            args.append(dirname)
+            target = dirname
         else:
-            args.append("./" + dirname)
+            target = "./" + dirname
+
+    if vim.vars['synta_go_build_recursive']:
+        if target == "":
+            target = "./..."
+        else:
+            if target.endswith("/"):
+                target = target + "..."
+            else:
+                target = target + "/..."
+
+    if target != "":
+        args.append(target)
 
     build = subprocess.Popen(
         args,
