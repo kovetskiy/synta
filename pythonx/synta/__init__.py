@@ -28,17 +28,21 @@ def build():
         else:
             target = "./" + dirname
 
-    if vim.vars['synta_go_build_recursive']:
-        if target == "":
-            target = "./..."
-        else:
-            if target.endswith("/"):
-                target = target + "..."
-            else:
-                target = target + "/..."
-
     if target != "":
         args.append(target)
+
+    target_recursive = ""
+    if vim.vars['synta_go_build_recursive']:
+        if target == "":
+            target_recursive = "./..."
+        else:
+            if target.endswith("/"):
+                target_recursive = target + "..."
+            else:
+                target_recursive = target + "/..."
+
+    if target_recursive != "":
+        args.append(target_recursive)
 
     build = subprocess.Popen(
         args,
@@ -51,6 +55,12 @@ def build():
 
     _, stderr = build.communicate()
     lines = stderr.split('\n')
+
+    lines = list(filter(
+        lambda line: not line.startswith('go: warning:') and \
+            not line.endswith('matched no packages'),
+        lines,
+    ))
 
     if len(lines) > 0:
         vim.vars['go_errors'] = lines
