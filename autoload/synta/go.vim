@@ -50,7 +50,10 @@ function! synta#go#parse_errors(lines) abort
     endfor
 
     if empty(errors) && !empty(a:lines)
-        call add(errors, {"text": join(a:lines, "\n")})
+        let err = join(a:lines, "\n")
+        if !empty(err)
+            call add(errors, {"text": })
+        endif
     endif
 
     return errors
