@@ -17,7 +17,7 @@ func! synta#go#build(...)
     else
         redraw!
         echohl String
-        echon "[go] build succeed"
+        echon "synta: go build ✓"
     endif
     echohl Normal
 endfunc!

@@ -35,13 +35,16 @@ func! synta#quickfix#go(nr)
 
         redraw!
     endif
+
     if empty(item["text"])
         return
     endif
 
     let g:synta_error_current = item["text"]
 
+    echohl Error
     echo strpart(synta#quickfix#counter() . " " . item["text"], 0, &columns-1)
+    echohl Normal
 
     py import vim
     py synta.try_jump_to_error_identifier(vim.vars["synta_error_current"])
