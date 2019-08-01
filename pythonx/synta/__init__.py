@@ -9,11 +9,13 @@ _active_highlights = []
 
 def build():
     filename = os.path.basename(vim.current.buffer.name)
+    building = True
     if not filename.endswith("_test.go"):
         args = ["go-fast-build"]
         if not vim.vars['synta_use_go_fast_build']:
             args = ["go", "build"]
     else:
+        building = False
         args = ["go", "test", "-c"]
 
     dirname = os.path.dirname(vim.current.buffer.name)
@@ -32,7 +34,7 @@ def build():
         args.append(target)
 
     target_recursive = ""
-    if vim.vars['synta_go_build_recursive']:
+    if building and vim.vars['synta_go_build_recursive']:
         if target == "":
             target_recursive = "./..."
         else:
