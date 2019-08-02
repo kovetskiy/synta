@@ -26,3 +26,7 @@ endif
 if !exists('g:synta_use_sbuffer')
     let g:synta_use_sbuffer = 1
 endif
+
+if !exists('g:synta_go_build_recursive')
+    let g:synta_go_build_recursive = 1
+endif
