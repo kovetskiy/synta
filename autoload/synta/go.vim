@@ -27,7 +27,11 @@ function! synta#go#parse_errors(lines) abort
 
     for line in a:lines
         let fatalerrors = matchlist(line, '^\(fatal error:.*\)$')
-        let tokens = matchlist(line, '^\s*\(.\{-}\):\(\d\+\):\s*\(.*\)')
+        let tokens = matchlist(line, '^\s*\(.*\):\(\d\+\):\d\+:\s*\(.*\)$')
+
+        if len(tokens) >= 2 && tokens[1] =~ "^# "
+            continue
+        endif
 
         if !empty(fatalerrors)
             call add(errors, {"text": fatalerrors[1]})
