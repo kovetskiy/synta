@@ -21,6 +21,19 @@ def build():
     dirname = os.path.dirname(vim.current.buffer.name)
     cwd = os.getcwd()
 
+    envs = None
+    if os.path.exists(os.path.join(cwd, "AndroidManifest.xml")):
+        envs = {
+            "GOOS": "android",
+            "GOARCH": "arm64",
+            "CC": vim.vars['synta_android_toolchain'],
+            "CXX": vim.vars['synta_android_toolchain'] + "++",
+        }
+
+        envs.update(os.environ)
+
+        args += ["-buildmode=c-shared"]
+
     target = ""
     if dirname != cwd:
         if dirname.startswith(cwd):
@@ -51,6 +64,7 @@ def build():
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         close_fds=True,
+        env=envs,
     )
 
     lines = []
