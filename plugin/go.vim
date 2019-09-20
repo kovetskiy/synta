@@ -32,5 +32,5 @@ if !exists('g:synta_go_build_recursive')
 endif
 
 if !exists('g:synta_android_toolchain')
-    let g:synta_android_toolchain = "/opt/android-ndk/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android29-clang"
+    let g:synta_android_toolchain = "aarch64-linux-android29-clang"
 endif
