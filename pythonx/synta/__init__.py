@@ -70,16 +70,26 @@ def build():
     lines = []
 
     _, stderr = build.communicate()
-    lines = stderr.split('\n')
+    lines = _filter_and_sort_errors(filename, stderr.split('\n'))
 
+    if len(lines) > 0:
+        vim.vars['go_errors'] = lines
+
+
+def _filter_and_sort_errors(filename, lines):
     lines = list(filter(
         lambda line: not line.startswith('go: warning:') and \
             not line.endswith('matched no packages'),
         lines,
     ))
 
-    if len(lines) > 0:
-        vim.vars['go_errors'] = lines
+    # errors with current filename should be first
+    def _sort_error(line):
+        candidate = os.path.basename(line.split(':')[0])
+        return int(candidate == filename)
+    lines = sorted(lines, key=_sort_error, reverse=True)
+
+    return lines
 
 
 def _get_tags_file():
