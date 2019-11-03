@@ -42,11 +42,3 @@ Specify fixer for ale
     \}
     let g:ale_fix_on_save = 1
 ```
-
-## Settings
-
-You can disable using of `go-fast-build` which enabled by default:
-
-```
-let g:synta_use_go_fast_build = 0
-```

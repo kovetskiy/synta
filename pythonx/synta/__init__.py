@@ -11,9 +11,7 @@ def build():
     filename = os.path.basename(vim.current.buffer.name)
     building = True
     if not filename.endswith("_test.go"):
-        args = ["go-fast-build"]
-        if not vim.vars['synta_use_go_fast_build']:
-            args = ["go", "build"]
+        args = ["go", "build"]
     else:
         building = False
         args = ["go", "test", "-c"]
