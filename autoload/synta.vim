@@ -20,19 +20,6 @@ endfunc!
 func! synta#highlight()
     py synta.highlight_tags()
 
-    if g:synta_go_highlight_calls == 1
-        if !exists("b:_synta_go_highlight_calls")
-            call synta#highlight_calls()
-            let b:_synta_go_highlight_calls = 1
-        endif
-    endif
-    if g:synta_go_highlight_calls_funcs == 1
-        if !exists("b:_synta_go_highlight_calls_funcs")
-            call synta#highlight_calls_funcs()
-            let b:_synta_go_highlight_calls_funcs = 1
-        endif
-    endif
-
     if !exists("b:_synta_go_highlight_builtins")
         call synta#highlight_builtins()
         let b:_synta_go_highlight_builtins = 1
