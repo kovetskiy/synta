@@ -5,9 +5,13 @@ func! synta#go#build(...)
 
     let g:go_errors = []
 
+    " this will call python function which will start thread and then in main
+    " thread synta#go#process_build_result will be called
     py synta.build()
+endfunc!
 
-    let g:errors = synta#go#parse_errors(g:go_errors)
+func! synta#go#process_build_result(result)
+    let g:errors = synta#go#parse_errors(a:result)
 
     call setqflist(g:errors)
 

@@ -3,9 +3,30 @@ import vim
 import os
 import os.path
 import re
+from threading import Thread
 
 _active_highlights = []
 
+def _thread_build(filename, args, envs):
+    build = subprocess.Popen(
+        args,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        close_fds=True,
+        env=envs,
+    )
+
+    lines = []
+
+    _, stderr = build.communicate()
+    lines = _filter_and_sort_errors(filename, stderr.split('\n'))
+
+    vim.async_call(_wake_up_build, lines)
+
+def _wake_up_build(lines):
+    if len(lines) > 0:
+        vim.vars['go_errors'] = lines
+    vim.call('synta#go#process_build_result', lines)
 
 def build():
     filename = os.path.basename(vim.current.buffer.name)
@@ -57,22 +78,7 @@ def build():
     if target_recursive != "":
         args.append(target_recursive)
 
-    build = subprocess.Popen(
-        args,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        close_fds=True,
-        env=envs,
-    )
-
-    lines = []
-
-    _, stderr = build.communicate()
-    lines = _filter_and_sort_errors(filename, stderr.split('\n'))
-
-    if len(lines) > 0:
-        vim.vars['go_errors'] = lines
-
+    Thread(target=_thread_build, args=(filename, args, envs)).start()
 
 def _filter_and_sort_errors(filename, lines):
     lines = list(filter(
