@@ -27,6 +27,10 @@ if !exists('g:synta_go_build_recursive')
     let g:synta_go_build_recursive = 1
 endif
 
+if !exists('g:synta_go_build_recursive_cwd')
+    let g:synta_go_build_recursive_cwd = 0
+endif
+
 if !exists('g:synta_android_toolchain')
     let g:synta_android_toolchain = "aarch64-linux-android29-clang"
 endif

@@ -67,7 +67,7 @@ def build():
 
     target_recursive = ""
     if building and vim.vars['synta_go_build_recursive']:
-        if target == "":
+        if target == "" or vim.vars['synta_go_build_recursive_cwd']:
             target_recursive = "./..."
         else:
             if target.endswith("/"):
@@ -79,6 +79,26 @@ def build():
         args.append(target_recursive)
 
     Thread(target=_thread_build, args=(filename, args, envs)).start()
+
+# def _find_first_go_package_file(dir, files):
+#     for file in files:
+#         if file.endswith('_test.go'):
+#             continue
+
+#         if file.endswith('.go'):
+#             package = get_package_name_from_file(
+#                 dir + "/" + file
+#             )
+#             return (file, package)
+#     return (None, None)
+
+# def get_package_name_from_file(path):
+#     with open(path) as gofile:
+#         for line in gofile:
+#             if line.endswith('_test\n'):
+#                 continue
+#             if line.startswith('package '):
+#                 return line.split(' ')[1].strip()
 
 def _filter_and_sort_errors(filename, lines):
     lines = list(filter(
