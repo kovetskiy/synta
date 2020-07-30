@@ -31,4 +31,10 @@ func! synta#rehighlight()
     call synta#highlight()
 endfunc!
 
+func! synta#success(lang)
+    echohl String
+    echon a:lang . ": BUILD → OK"
+    echohl Normal
+endfunc!
+
 hi def link goReceiver Identifier

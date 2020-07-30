@@ -20,10 +20,8 @@ func! synta#go#process_build_result(result)
         call synta#quickfix#go(0)
     else
         redraw!
-        echohl String
-        echon "synta: go build ✓"
+        call synta#success("GO")
     endif
-    echohl Normal
 endfunc!
 
 function! synta#go#parse_errors(lines) abort
