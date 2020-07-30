@@ -214,5 +214,5 @@ def try_jump_to_error_identifier(contents):
         matches = re.search(regexp, contents)
         if matches:
             identifier = matches.group(1)
-            vim.command("call search('\<\V%s\m\>', 'cs')" % identifier)
+            vim.command("call search('\<\V%s\m\>', 'cs', line('.'))" % identifier)
             return True
