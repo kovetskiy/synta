@@ -1,4 +1,4 @@
-py import synta
+py3 import synta
 
 let g:synta_go_highlight_calls = get(g:, 'synta_go_highlight_calls', 1)
 let g:synta_go_highlight_calls_funcs = get(g:, 'synta_go_highlight_calls_funcs', 0)
@@ -18,7 +18,7 @@ func! synta#highlight_calls_funcs()
 endfunc!
 
 func! synta#highlight()
-    py synta.highlight_tags()
+    py3 synta.highlight_tags()
 
     if !exists("b:_synta_go_highlight_builtins")
         call synta#highlight_builtins()
@@ -27,7 +27,7 @@ func! synta#highlight()
 endfunc!
 
 func! synta#rehighlight()
-    py synta.generate_tags()
+    py3 synta.generate_tags()
     call synta#highlight()
 endfunc!
 

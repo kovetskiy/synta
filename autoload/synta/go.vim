@@ -7,7 +7,7 @@ func! synta#go#build(...)
 
     " this will call python function which will start thread and then in main
     " thread synta#go#process_build_result will be called
-    py synta.build()
+    py3 synta.build()
 endfunc!
 
 func! synta#go#process_build_result(result)

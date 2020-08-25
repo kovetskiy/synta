@@ -46,8 +46,8 @@ func! synta#quickfix#go(nr)
     echo strpart(synta#quickfix#counter() . " " . item["text"], 0, &columns-1)
     echohl Normal
 
-    py import vim
-    py synta.try_jump_to_error_identifier(vim.vars["synta_error_current"])
+    py3 import vim
+    py3 synta.try_jump_to_error_identifier(vim.vars["synta_error_current"])
 endfunc!
 
 func! synta#quickfix#next()
