@@ -14,6 +14,7 @@ def _thread_build(filename, args, envs):
         stderr=subprocess.PIPE,
         close_fds=True,
         env=envs,
+        encoding='UTF-8',
     )
 
     lines = []
