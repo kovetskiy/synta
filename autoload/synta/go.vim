@@ -13,11 +13,9 @@ endfunc!
 func! synta#go#process_build_result(result)
     let g:errors = synta#go#parse_errors(a:result)
 
-    call setqflist(g:errors)
-
     call synta#quickfix#reset()
     if len(g:errors) > 0
-        call synta#quickfix#go(0)
+        call synta#quickfix#go_first()
     else
         redraw!
         call synta#success("GO")
@@ -42,7 +40,7 @@ function! synta#go#parse_errors(lines) abort
             let out = substitute(tokens[3], '\r$', '', '')
 
             call add(errors, {
-                    \ "filename" : fnamemodify(tokens[1], ':p'),
+                    \ "filename" : tokens[1],
                     \ "lnum"     : tokens[2],
                     \ "text"     : out,
                     \ })

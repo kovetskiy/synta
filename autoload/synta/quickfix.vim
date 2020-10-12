@@ -2,48 +2,75 @@ let g:go_list_type = "quickfix"
 
 func! synta#quickfix#reset()
     let g:synta_quickfix_nr = 0
-    let g:synta_quickfix_count = len(getqflist())
+    let g:synta_quickfix_count = len(g:errors)
 endfunc!
 
 func! synta#quickfix#error()
-    echo getqflist()[g:synta_quickfix_nr]["text"]
+    echo g:errors[g:synta_quickfix_nr]["text"]
 endfunc!
 
 func! synta#quickfix#counter()
     return "[" . (g:synta_quickfix_nr+1) . "/" . g:synta_quickfix_count . "]"
 endfunc!
 
-func! synta#quickfix#go(nr)
-    let item = getqflist()[a:nr]
-    let buffer = item["bufnr"]
-    if buffer
-        let windows = win_findbuf(buffer)
-
-        if len(windows) > 0
-            call win_gotoid(windows[0])
-        else
-            if g:synta_use_sbuffer == 1
-                execute "botright" "sbuffer" buffer
-                execute "wincmd" "="
-            else
-                execute "buffer" buffer
+func! synta#quickfix#go_first()
+    let current = expand('%')
+    for item in g:errors
+        if get(item, 'filename', '') != ''
+            if item['filename'] == current
+                call synta#quickfix#open(item)
+                return
             endif
         endif
+    endfor
 
-        execute "normal! " item["lnum"] . "G"
-        silent! normal! zvzz
+    call synta#quickfix#go(0)
+endfunc!
 
-        redraw!
+func! synta#quickfix#go(nr)
+    call synta#quickfix#open(g:errors[a:nr])
+endfunc!
+
+func! synta#quickfix#open(item)
+    if get(a:item, 'filename', '') != ''
+        let full_filename = fnamemodify(a:item['filename'], ':p')
+        let buffers = tabpagebuflist()
+        let found = 0
+        for bufnr in buffers
+            if fnamemodify(bufname(bufnr), ':p') == full_filename
+                let windows = win_findbuf(bufnr)
+                if len(windows) > 0
+                    echom "win_gotoid"
+                    call win_gotoid(windows[0])
+                    let found = 1
+                    break
+                endif
+            endif
+        endfor
+
+        if found == 0
+            echom 'vsp'
+            execute 'vsp' a:item['filename']
+        endif
     endif
 
-    if empty(item["text"])
+    call synta#quickfix#navigate(a:item)
+endfunc!
+
+func! synta#quickfix#navigate(item)
+    execute "normal! " a:item["lnum"] . "G"
+    silent! normal! zvzz
+
+    redraw!
+
+    if empty(a:item["text"])
         return
     endif
 
-    let g:synta_error_current = item["text"]
+    let g:synta_error_current = a:item["text"]
 
     echohl Error
-    echo strpart(synta#quickfix#counter() . " " . item["text"], 0, &columns-1)
+    echo strpart(synta#quickfix#counter() . " " . a:item["text"], 0, &columns-1)
     echohl Normal
 
     py3 import vim

@@ -17,10 +17,6 @@ Plug 'kovetskiy/vim-hacks'
 Plug 'kovetskiy/synta'
 ```
 
-And, of course, you need to install `go-fast`:
-
-[https://github.com/kovetskiy/go-fast](https://github.com/kovetskiy/go-fast)
-
 ## Usage
 
 ```

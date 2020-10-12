@@ -13,5 +13,5 @@ func! go#list#Window(x, ...)
 endfunc!
 
 func! go#list#JumpToFirst(...)
-    call synta#quickfix#go(0)
+    call synta#quickfix#go_first()
 endfunc!
