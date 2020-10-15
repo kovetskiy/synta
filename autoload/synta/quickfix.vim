@@ -58,8 +58,10 @@ func! synta#quickfix#open(item)
 endfunc!
 
 func! synta#quickfix#navigate(item)
-    execute "normal! " a:item["lnum"] . "G"
-    silent! normal! zvzz
+    if get(a:item, 'lnum', '') != ''
+        execute "normal! " a:item["lnum"] . "G"
+        silent! normal! zvzz
+    endif
 
     redraw!
 
